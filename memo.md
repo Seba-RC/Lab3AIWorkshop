@@ -1,0 +1,9 @@
+# Recommendation to the Head of Strategy
+
+The pit-window alert could help the pit wall decide which rival deserves closer monitoring over the next three laps. It predicts an observed pit entry, not the best time for our own car to stop, so it should not trigger a pit decision by itself.
+
+On the first eleven rounds of 2022, the unchanged `forest_sqrt` model caught 140 of 370 distinct eligible pit entries (37.8% event recall) using 945 alerts. Of those alerts, 605 were false, giving 36.0% precision. After increasing the forest's minimum leaf size from 30 to 100, the candidate caught 159 of 370 entries (43.0% event recall) using 938 alerts. It produced 562 false alerts and 40.1% precision. Thus, in this development comparison, it caught 19 more distinct entries and generated 43 fewer false-alert windows with seven fewer alerts. These are development results, not an untouched final test: the threshold was selected on the same development period under a maximum 10% alert budget.
+
+I recommend further checking before operational use, rather than relying on the candidate now. The error analysis shows that performance varies by context: for HARD-tyre windows, 230 of 274 alerts were false, while at circuit 19, 114 of 126 positive windows were missed. These are window-level patterns, and context counts can overlap; they do not establish why the errors occur.
+
+The larger minimum leaf size may constrain overly specific tree leaves, but this experiment does not isolate a causal explanation for the improved development metrics. The score is also not demonstrated to be a calibrated probability. Before relying on the alert, freeze the candidate and threshold, evaluate them on a later untouched time period, and report distinct entries caught, false alerts per opportunity, precision and event recall by context. Keep the output as a watch-list until that later evaluation shows sufficiently stable performance and an acceptable monitoring burden.
